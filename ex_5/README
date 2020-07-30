@@ -1,0 +1,122 @@
+arikzil
+
+
+
+
+=============================
+=      File description     =
+=============================
+Files: the files devided to packages
+(1)filesprocessing Package:
+                                (1.1) DirectoryProcessor.java - the main class of this program .
+                                      The filter is executed from here.
+(2)filesprocessing.processor Package:
+                                (2.1) Parser.java - class used for reading text files and creating sections.
+                                (2.2) Section.java - representing a section.Contains both an order and a filter.
+(3)filesprocessing.processor.exceptions Package:
+                                (3.1) TypeOneErrors.java -a subclass of Exception.
+                                      Representing the first type of exceptions,as was described in the excersice
+                                      description.
+                                (3.2) TypeTwoErrors.java -a subclass of RuntimeException.
+                                      Representing the second type of exceptions,as was described in the excersice
+                                      description.
+(4)filesprocessing.processor.orders Package:
+                                (5.1) Order.java- sub lclass of order.
+                                      Representing a base class for all the order types.
+                                (5.2) OrderFactory.java - a class used for creating orders.
+                                      It follows the the Factory creational design pattern.
+                                (5.3) AbsOrder.java - subclass of Order.Representing the "abs" order.
+                                (5.4) ReversedOrder.java - sub lclass of order.
+                                (5.5) SizeOrder.java - subclass of Order.Representing the "size" order.
+                                (5.6) TypeOrder - subclass of Order.Representing the "type" order.
+(5)filesprocessing.processor.filters Package:
+                                (5.1) AllFilter.java - subclass of Filter.
+                                      Representing the "all" filter.
+                                (5.2) BetweenFilter.java - subclass of Filter.
+                                      Representing the "between" filter.
+                                (5.3) ContainsFilter.java - subclass of Filter.
+                                      Representing the "contains" filter.
+                                (5.4) ExecutableFilter.java - subclass of Filter.
+                                      Representing the "executable" filter.
+                                (5.5) FileFilter.java - subclass of Filter.
+                                      Representing the "file" filter.
+                                (5.6) FilterFactory.java - a class used for creating filters.
+                                      It follows the the Factory creational design pattern.
+                                (5.7) Filter.java - a  super class  for filter type classes.
+                                (5.8) GreaterThanFilter.java - subclass of Filter.
+                                      Representing the "greater_than" filter.
+                                (5.9) HiddenFilter.java - subclass of Filter.
+                                       Representing the "hidden" filter.
+                                (5.10) NotFilter.java - a decorator for the Filter objects to do the opposite
+                                       of their original functionality.
+                                (5.11) PrefixFilter.java - subclass of Filter.
+                                       Representing the "prefix" filter.
+                                (5.12) SmallerThanFilter.java - subclass of Filter.
+                                       Representing the "smaller_than" filter.
+                                (5.13) SuffixFilter.java - subclass of Filter.
+                                       Representing the "suffix" filter.
+                                (5.14) WritableFilter.java - subclass of Filter.
+                                       Representing the "writable" filter.
+
+
+=============================
+=          Design           =
+=============================
+3.1 I chose to design the program as modular as possible: as each package stands on it's own.
+    The Main package is file processing which  contains the main class DirectoryProcessor
+    from which the program is ran.It also contains all the execute logic
+    is a subpackage proccessor which itself it seperated into multiple
+    packages where each package has it's own functionality.
+    3.2 It is not hard adding and changing functionality in the program .
+    lets take for example: adding a filter  takes only  building  another filter class and adding its
+    name  in the filter Factory.This helps making it easy to add/change and as modular as possible
+3.3 The logic for packages in proccessor ,which handles the processing,is  as follows:
+        - exceptions: handles the CUSTOM exceptions this program throws
+        - filter: handles the filter functionality
+        - orders: handles the orders functionality
+3.4 The not functionality for filters is handled using the Decorator Design pattern .
+    It decorates an existing filter type.Handling the not externally using this program has minimize
+    the amount of code filter  type has(for example i could use a data member instead in each filter class)
+3.5 The reverse functionality for orders  is handled using the Decorator Design pattern.
+    It decorates an existing order type.Handling the not externally using this program has minimize
+    the amount of code orde type has(for example i could use a data member instead in each order class)
+=============================
+=  Implementation details   =
+=============================
+1.  Filters
+1.1 I chose to handle the creation of filters with the creational design pattern Factory.
+    This is done with FilterFactory class.This class takes filter name as input and returns a Filter Type
+1.2 I designed it so that all existing filter types are sub classes of a Filter class.
+    This is done with OrderFactory class.This class takes order name as input and returns a Filter Type
+2.  Orders
+2.1 I chose to handle the creation of orders with the creational design pattern Factory.
+2.2 I designed it so that all existing order types are sub classes of an Order class.
+3.  exception
+3.1 As per the excersice description I created  classes for each type of error as was described
+    in the description of the excersice.Therefore there are two types of exception:type1 and type2
+3.2 TypeOne exception extends exceptions as it only needs to print a warning to the user.
+3.3 The program is ran using the command line from DirectoyProccessor.
+    This class uses:
+        -Parser:  responsible for creating section from a commandFile
+        -Section: the output of the parser.Sections are used for filtering and sorting file list that in
+                  given in the main
+3.4 Section contains:
+    - filter : created in the filter package using the filter Factory.
+    - order : created in the order package using the order Factory.
+    - warning : type 1 warnings from the exception package.
+3.4 TypeTwo exception  extends RuntimeException as when encountered the program must exit.
+    Each possible exception
+    an appropriate message in the format that was described in the excersice description.
+    The message given is hard coded as it can only occur in countable places.
+
+=============================
+=    Answers to questions   =
+=============================
+(q1) How did you sort your matched files? Did you use a data structure for this purpose?
+     If so, what data structure and why?
+(a1) I did not use a data structure.
+    As I could not use Collection in this case I implemented the MergeSort algorithm in the Super class Order
+    where the comparision for files is done using the compare method with is abstract in the super class.
+    All the usable order types inherited from Order and all implement their own compare method.
+    Therefore the algorithm logic remains the same in every sub class.I used this algorthim as sort is done
+    in O(n*log(n)) which is the fastest algorithm I know

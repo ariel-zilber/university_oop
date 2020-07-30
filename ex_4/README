@@ -1,0 +1,95 @@
+arikzil
+
+
+
+
+=============================
+=      File description     =
+=============================
+SimpleHashSet.java -  an abstract class  implementing SimpleHashSet
+OpenHashSet.java - a hash-set based on chaining.
+ClosedHashSet.java - a hash-set based on closed-hashing with quadratic probing.
+CollectionFacadeSet.java - Wraps an underlying Collection and serves to both simplify its API and give
+                           it a common type with the implemented SimpleHashSets.
+SimpleSetPerformanceAnalyzer.java - a class used for measuring the run-times
+StringChain -   A class that wraps a linked list of strings. It contains some of the exact same methods
+that linked list does.It also implements the Iterable  framework
+
+=============================
+=          Design           =
+=============================
+1   SimpleHashSet
+1.1 As was requested in the api this methods is abstract.
+1.2 Some of the methods it contains that have the same behaviour in both of its subclasses were implemented
+    in this class.
+1.3 Other methods were declared abstract and were implemented in it's subclasses.Although each subclass of
+    the SimpleHashSet contain "buckets" they were not declared as a common type in this super class as each subclass
+    bucket is supposed to behave differently and therefore were implemented separably.
+1.4 Some common attribures that each class shares such as size are represented i this superclass
+2   OpenHashSet
+2.1  I chose to use an array of Wrapped LinkedLists of Strings to represents each
+    "buckets".This was necesary as each bucket in the Open HashSet can have multiple values,unlike the ClosedhasSet
+    which can have only one.Those  buckets sizes is also dynamic and can change duration runtime and therefore
+    data structures such as array where not a valid solution
+2.2 This was also necesary because Java does not allow to directly create an array of linked lists.
+    This Wrapper contains a single data member representing a LinkedList<String>.
+    Also thee methods this class uses are existing methods in the Java
+    implementation of LinkedList<string> and are simply calls to this method.Also the StringChain implements the
+    Iterable<String> interface.This was done as in many sections of my code i needed to iterate on the linkedList the
+    wrapper represents.
+3   ClosedHashSet
+3.1 In order to store values inside the closedHash table I chose to use an array.
+4   CollectionFacadeSet
+4.1 In order for the facade to simulate a set type I chose to expand the given api and provide it with a data member
+    named size.This data member represents the amount of unique values the given set contains.
+
+=============================
+=  Implementation details   =
+=============================
+1 CollectionFacadeSet
+1.1 The Facade's data member size is initialized with the constructor method as provided with the api.
+    Therefore each additional call to either add or delete methods update this field.
+    Also this field is returned with the getSize() method.The unique values could have been stored using some
+    data structure inside the facade such as a HashTable,however by using a single int field I managed to save the
+    amount of space this method takes.
+2   SimpleHashSet
+2.1 Invalid loadFactor input were not taken into consideration as was written in the form that no input of this sort
+    is considered.
+3   ClosedHashSet
+3.1 In order deal with item deletion in Closed Hash Set, I used a static string data member representing
+    a deleted value.Whenever an item is added to the set it is simply assigned to the a suitable place inside the array.
+    Whenever items are deleted ,in order to differentiate between null and deleted values, the static data member
+    is place in the array.It is differentiated by compare by reference
+
+=============================
+=    Answers to questions   =
+=============================
+q1 Account, in separate, for OpenHashSet’s and ClosedHashSet’s bad results for data1.txt
+a1 Both type of hash sets  have bad results.Those come from a similar issue.I am addressing the fact that all of the
+   given items in the list have an identical hash.Therefore in the open hash every add action that is done to the
+   set, the entire linked list of the hash is iterated over in order to check if  the item already exists.
+   This results in depencene of the hash size a longer and longer time with every increase and it causes a slow down.
+   The closedHashSet also has to be iterated over the entire set each time only to find
+   that every bucket calculated using the linear probing algorithm has already been filled. In time a null bucket
+   will be found and the value there would be placed there.As a result,the runtime of each add increase linearly.
+q2 Summarize the strengths and weaknesses of each of the data structures as reflected by
+   the results. Which would you use for which purposes?
+a2 In all of the test the default implementation of Java for HashSet has the best runTime.Therfore I would always
+   chose to use it.Therefore,I would use it it any operation that requires using an unordered set.
+   However,sets have  a drawback  as it is impossible to add two identical elements to them.
+   As a result, I would  use LinkedList for operations that require this kind of action.
+   Moreover,It seems that between the OpenHashSet and ClosedHashSet the performance is almost identical except,
+   in some cases such as adding items that have the same hashcode .In those cases the ClosedHashSet is a lot slower
+   compared to the OpenHashSet.Also on avarage the TreeSet is faster ten those both methods.As in most of the cases
+   differnce in the performace is minial ,except a few where the treeSet is a lot faster I would rather use it.
+q3 How did your two implementations compare between themselves?
+a3 In the first test OpenHashSet was faster almost two times the amount
+   In the second test OpenHashSet was  a little faster
+   In the third test OpenHashSet was  a little faster
+   In the fourth test ClosedHashSet was  a lot faster
+   In the fifh test OpenHashSet was  a little faster
+   In the sixth test OpenHashSet was  a little faster
+
+q4 How did your implementations compare to Java’s built in HashSet?
+a4 Java's build in implemation of HashSet seems to faster in every performance test that was done.it seems that the
+   default implementation of java has some sort of optimization that makes it better then my implementation.

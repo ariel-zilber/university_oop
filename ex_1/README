@@ -1,0 +1,38 @@
+arikzil
+
+
+
+
+=============================
+=      File description     =
+=============================
+Library.java - implements the Library class.
+Patron.java - implements the Patron class.
+Book.java - implements the Book class.
+
+
+
+=============================
+=          Design           =
+=============================
+I implemented the Library class in a way that it can hold a static amount of placeholders for books,
+and registered patrons.Unless books and panelist were supplied ,the library placeholders point to null.
+The Book class was implemented according to the given skeleton.The  Patron class was also implemented
+in according to the API with the addition of a field to hold the total of books currently held by a given patron .
+
+
+
+=============================
+=  Implementation details   =
+=============================
+In the Library class, in order to store the books and patrons that are registered ,
+I chose to use arrays of Book and Patron type because the total number of each is limited by the library capacity for
+books and registered panelist.I also used a counter for the total borrowed books for making sure that the
+amount does not exceed the Libraries' limit.
+Also I added a int field to count the total amount of borrowed books a patron holds in a given time.
+
+
+=============================
+=    Answers to questions   =
+=============================
+-no questions were given-

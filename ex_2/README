@@ -1,0 +1,101 @@
+arikzil
+
+
+
+
+=============================
+=      File description     =
+=============================
+SpaceShip.java - implements a base class for all other SpaceShip types
+RunnerSpaceShip.java - implements  the Runner ship type
+BasherSpaceShip.java - implements  the Basher ship type
+SpecialSpaceShip.java - implements  the Basher ship type
+SpaceShipFactory.java - implements a factory to create all ship types
+AggressiveSpaceShip.java - implements  the Aggressive ship type
+DrunkardSpaceShip.java - implements  the Drunkard ship type
+SpecialSpaceShip.java - implements  the special ship type
+HumanSpaceShip.java - implements  the  Human spaceship type
+spaceship_aggressive.gif - image for the aggressive ship type
+spaceship_aggressive_shield.gif - image for the aggressive ship type when shield is activated
+spaceship_basher.gif - image for the Basher ship type
+spaceship_basher_shield.gif - image for the Basher sip type when shield is activated
+spaceship_drunk_angry.gif - image for the angry action for the drunkard ship type
+spaceship_drunk_angry_shield.gif  - image for the angry action for the drunkard ship type
+when shield is activated
+spaceship_drunk_overdose.gif - image for the drunkard ship for the drunk state
+spaceship_drunk_scared.gif - image for the drunkard ship for the scared state
+spaceship_human.gif - image for the human ship type
+spaceship_human_shield.gif - image for the human ship type when the shield is activated
+spaceship_runner.gif - image for the runner space ship
+spaceship_special.gif - image for the special spaceship when doing special action
+spaceship_special_stone.gif - image for the special spaceship when the special action has not been started
+
+
+=============================
+=          Design           =
+=============================
+1.  General design
+1.1 I designed the a general space type called SpaceShip.This is an abstract that all other
+    SpaceShip types are inherited from which includes it's data members and methods.
+    Each space ship type ,expect the special one,
+    follows the spaceShip proprieties that were described in the exercise details.
+1.2 The SpaceShip class direct subclasses are:
+    a)AggressiveSpaceShip
+    b)BasherSpaceShip
+    c)DrunkardSpaceShip
+    d)HumanSpaceShip
+    e)RunnerSpaceShip
+1.3 Also the AggressiveSpaceShip is the super class of SpecialSpaceShip.
+1.4 I chose to place a unique image for each SpaceShip type to keep it interesting and
+    in order to tell better apart each Space ship in the game GUI.
+1.5 The Drunkard space Ship type was created with 3 types of behaviors which
+    were selected at random for a short duration.Those are:
+    a)angry drunk: The Drunkard SpaceShip follows the closest ship and tries to bash it ,
+    yet it does not activate the shield
+    b)scared drunk: The spaceShip tries to run away the closest ship like the runner ,
+    yet it does not teleport.
+    c)overdose drunk:it just spins in circles.
+1.6 The special SpaceShip has a behavioral life cycle of 200 turns which afterwards resets.
+    On the first turn the spaceship teleoports.
+    Then up util the 100 turn it follows the closes ship and attempts to
+    fire on it.In this stage the ship is vulnerable.Afterwards the spaceship turns to stone.
+    In this stage the space Ship stops moving and is invulnerable.
+2.  Modularity -
+2.1 I kept the general principle of inheritance.
+    Also I used the creational Factory design pattern.
+    This concentrated the the Space ship creation to a simple method.
+    Following this design helped me to avoid repetitiveness and
+    concentrate most of the work in a single location.
+3   Intuitiveness and understandability.
+3.1 I think I kept a pretty clear and modular approach.
+=============================
+=  Implementation details   =
+=============================
+1.  Each spaceShip class is inherited  from the base SpaceShip class.
+    This base spaceship contains all the basic properties that were described in the exercise details.
+    Those includes physicalState attribute that is kept by the SpaceShipPhysics object that was supplied in the API.
+    Also methods such as teleport which was by assigning new SpaceShipPhysics to the physicalState attribute.
+2.1 Each type Overwrites the getImage method and the doAction one.Each image overwrite was as each ship was
+    provided with a unique gif type image that is returns.
+    The getImage method represents it's appropriate image using the Image type.
+    This method was copied from the the supplied jar only with small modifications.
+    Note that most of the images were borrowed from Nintendo's Super Mario.
+2.2 The doAction method is unique for each ship type.
+    The Basher spaceShip moves towards the closest ship and starts it's
+    shield when at proximity.
+    This was implemented using the angleTo method using the physicalState attribute.
+    The doAction method for the Runner spaceShip was implemented in a similar matter,
+    yet it runs away instead and teleport at close proximity.
+    The Drunkard uses the random function to select the suitable
+    behaviour were angry behaviour and scared were implement in almost exactly the same way the existing ones.
+    The Human SpaceShip was implemented to take input from the user in each turn (using the supplied methods ).
+    The special SpaceShip doAction has the addition of having cool down to it actions,
+    which is a simple int data member.
+3.  The special space SpaceShip also overwrites the collidedWithAnotherShip,gotHit,teleport methods.
+3.1 The collidedWithAnotherShip and gotHit were changes so it the Spaceship can only be decrease the spaceships
+    health when it is not stone.
+3.2 The teleport method changed so it does not requires energy to activate.
+=============================
+=    Answers to questions   =
+=============================
+I detail the answers above
